@@ -103,6 +103,33 @@ Polymer({
     legendSettings: {
       type: Object,
       value: () => {return {};}
+    },
+    stateStore: {
+      type: Object,
+      value: () => {
+        if (!Redux) {
+          return false;
+        }
+        function states(state, action) {
+          let config = {};
+          if (!state) {
+            return false;
+          }
+          switch (action.type) {
+            case 'CREATE':
+              config.mode = 'create';
+            break;
+            case 'VIEW':
+              config.mode = 'view'
+            break;
+            case 'EDIT':
+              config.mode = 'edit'
+            break;
+          }
+          this.bootstrapCharts(config);
+        }
+        let store = Redux.createStore(states);
+      }
     }
   },
 
